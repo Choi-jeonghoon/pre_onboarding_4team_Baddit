@@ -2,19 +2,27 @@ const signupServices = require('../services/signup');
 
 const signup = async (req, res) => {
   const { user_name, birth_date, height, phone_number } = req.body;
-  if (typeof user_name !== 'string') {
-    res.status(400).json({ error: 'user_name is not String' });
-  }
-  if (typeof birth_date !== 'string') {
-    res.status(400).json({ error: 'birth_date is not String' });
-  }
-  if (typeof height !== 'number') {
-    res.status(400).json({ error: 'height is not Number' });
-  }
-  if (typeof phone_number !== 'string') {
-    res.status(400).json({ error: 'phone_number is not String' });
-  }
   try {
+    if (typeof user_name !== 'string') {
+      const err = new Error('user_name must be a string');
+      err.status = 400;
+      throw err;
+    }
+    if (typeof birth_date !== 'string') {
+      const err = new Error('birth_date must be a string');
+      err.status = 400;
+      throw err;
+    }
+    if (typeof height !== 'number') {
+      const err = new Error('height must be a number');
+      err.status = 400;
+      throw err;
+    }
+    if (typeof phone_number !== 'string') {
+      const err = new Error('phone_number must be a string');
+      err.status = 400;
+      throw err;
+    }
     await signupServices.signup(user_name, birth_date, height, phone_number);
     res.status(201).json({ message: 'User SignUp Success' });
   } catch (err) {
